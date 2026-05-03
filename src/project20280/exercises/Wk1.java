@@ -10,7 +10,14 @@ public class Wk1 {
         System.out.println(my_array);
 
         //double average = ...;
+        int sum = 0;
+        for (int i = 0; i < my_array.length; i++) {
+            sum += my_array[i];
+        }
+        double average = sum / my_array.length;
+        System.out.println(average);
     }
+
     public static void main(String [] args) {
         q1();
     }
