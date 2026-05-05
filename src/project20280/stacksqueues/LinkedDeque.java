@@ -13,7 +13,21 @@ public class LinkedDeque<E> implements Deque<E> {
 
     public static void main(String[] args) {
         // TODO Auto-generated method stub
+        LinkedDeque<Integer> dq = new LinkedDeque<>();
 
+        dq.addFirst(10);
+        dq.addLast(20);
+        dq.addFirst(5);
+        dq.addLast(25);
+
+        System.out.println("Deque: " + dq);
+        System.out.println("First: " + dq.first());
+        System.out.println("Last: " + dq.last());
+
+        dq.removeFirst();
+        dq.removeLast();
+
+        System.out.println("After removals: " + dq);
     }
 
     @Override

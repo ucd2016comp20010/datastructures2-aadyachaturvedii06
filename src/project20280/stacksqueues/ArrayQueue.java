@@ -6,18 +6,16 @@ public class ArrayQueue<E> implements Queue<E> {
 
     private static final int CAPACITY = 1000;
     private E[] data;
-    private final int front = 0;
-    private final int size = 0;
+    private int front = 0;
+    private int size = 0;
 
     public ArrayQueue(int capacity) {
-        // TODO
-
+        data = (E[]) new Object[capacity]; // creates the array that will store queue elements
     }
 
     public ArrayQueue() {
         this(CAPACITY);
     }
-
 
     @Override
     public int size() {
@@ -31,24 +29,37 @@ public class ArrayQueue<E> implements Queue<E> {
 
     @Override
     public void enqueue(E e) {
-        // TODO
+        if (size == data.length) { // checks if the queue is full before adding
+            throw new IllegalStateException("Queue is full");
+        }
+
+        int rear = (front + size) % data.length; // finds the next available position using circular indexing
+        data[rear] = e; // stores the new element at the rear
+        size++; // increases the number of elements in the queue
     }
 
     @Override
     public E first() {
-        return isEmpty() ? null : data[front];
+        return isEmpty() ? null : data[front]; // return the element itself, not Optional
     }
 
     @Override
     public E dequeue() {
-        // TODO
-        return null;
+        if (isEmpty()) { // nothing to remove
+            return null;
+        }
+
+        E answer = data[front]; // save the front value
+        data[front] = null; // clear old spot
+        front = (front + 1) % data.length; // move front around the circular array
+        size--; // one fewer element
+        return answer; // return the element itself, not Optional
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder("[");
         for (int i = 0; i < size; ++i) {
-            E res = data[(front + i) % CAPACITY];
+            E res = data[(front + i) % data.length];
             sb.append(res);
             if (i != size - 1) sb.append(", ");
         }
@@ -68,6 +79,5 @@ public class ArrayQueue<E> implements Queue<E> {
 
         for (int i = 0; i < N / 2; ++i) qq.dequeue();
         System.out.println(qq);
-
     }
 }

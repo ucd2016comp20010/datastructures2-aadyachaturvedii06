@@ -7,17 +7,17 @@ public class ArrayStack<E> implements Stack<E> {
     /**
      * Default array capacity.
      */
-    public static final int CAPACITY = 100;   // default array capacity
+    public static final int CAPACITY = 100;
 
     /**
      * Generic array used for storage of stack elements.
      */
-    private E[] data;                        // generic array used for storage
+    private E[] data;
 
     /**
      * Index of the top element of the stack in the array.
      */
-    private final int t = -1;                      // index of the top element in stack
+    private int t = -1;
 
     /**
      * Constructs an empty stack using the default array capacity.
@@ -32,8 +32,8 @@ public class ArrayStack<E> implements Stack<E> {
      * @param capacity length of the underlying array
      */
     @SuppressWarnings({"unchecked"})
-    public ArrayStack(int capacity) {        // constructs stack with given capacity
-        // TODO
+    public ArrayStack(int capacity) {
+        data = (E[]) new Object[capacity];
     }
 
     /**
@@ -43,7 +43,7 @@ public class ArrayStack<E> implements Stack<E> {
      */
     @Override
     public int size() {
-        return (t + 1);
+        return t + 1;                        // if top is 0, size is 1
     }
 
     /**
@@ -53,7 +53,7 @@ public class ArrayStack<E> implements Stack<E> {
      */
     @Override
     public boolean isEmpty() {
-        return size() == 0;
+        return t == -1;                      // empty means no top index
     }
 
     /**
@@ -64,7 +64,10 @@ public class ArrayStack<E> implements Stack<E> {
      */
     @Override
     public void push(E e) {
-        // TODO
+        if (size() == data.length) {         // no space left
+            throw new IllegalStateException("Stack is full");
+        }
+        data[++t] = e;                       // move top up, then store e
     }
 
     /**
@@ -74,8 +77,8 @@ public class ArrayStack<E> implements Stack<E> {
      */
     @Override
     public E top() {
-        // TODO
-        return null;
+        if (isEmpty()) return null;          // no top if empty
+        return data[t];                      // return actual value
     }
 
     /**
@@ -85,8 +88,12 @@ public class ArrayStack<E> implements Stack<E> {
      */
     @Override
     public E pop() {
-        // TODO
-        return null;
+        if (isEmpty()) return null;          // nothing to remove
+
+        E answer = data[t];                  // save top value
+        data[t] = null;                      // clear old spot
+        t--;                                 // move top down
+        return answer;                       // return actual value
     }
 
     /**
